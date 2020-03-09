@@ -44,7 +44,7 @@ def call_status_api(api_response):
         print("Status URL : ", status_url)
         api_response = requests.get(url=status_url, headers=HEADERS)
         print("RESPONSE : ", response.status_code, response.reason)
-        content = response.json()
+        content = api_response.json()
         if content["apiStatus"] == "FAILURE":
             print(json.dumps(content, indent=4))
         else:
@@ -89,9 +89,8 @@ def subscription_payload(name, subscription_url, subscribed_events_ids):
             }
         }
     ]
-    name = input("Please prove subscription name : ")
-    if len(name) != 0:
-        content[0]["name"] = name
+
+    content[0]["name"] = name
     content[0]["filter"]["eventIds"] = subscribedEventsIds
     content[0]["subscriptionEndpoints"][0]["subscriptionDetails"]["url"] = subscriptionURL
     return content
